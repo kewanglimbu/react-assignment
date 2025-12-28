@@ -1,7 +1,7 @@
 import Card from '../../../components/Card';
 import TransactionHeader from './TransactionHeader';
 
-export default function SummaryCard()
+export default function TransactionSection()
 {
   return (
     <Card className="p-0! overflow-hidden">

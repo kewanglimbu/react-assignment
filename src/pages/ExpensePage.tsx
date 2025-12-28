@@ -2,7 +2,7 @@ import { FaHome, FaMoneyCheckAlt } from "react-icons/fa";
 import SummaryCard from "../features/expenses/components/SummaryCard";
 import type { SummaryCardProps } from "../features/expenses/types/SummaryCardProps";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
-import Transaction from "../features/expenses/components/TransactionSection";
+import TransactionSection from "../features/expenses/components/TransactionSection";
 
 const summaryCards: SummaryCardProps[]= [
   { 
@@ -46,7 +46,7 @@ const ExpensePage = () => {
           </div>
         </div>
         <div className=" rounded-xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
-            <Transaction/>
+            <TransactionSection/>
         </div>
       </div>
     </div>
