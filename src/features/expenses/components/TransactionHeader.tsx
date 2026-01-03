@@ -1,4 +1,7 @@
-export default function TransactionHeader({ onAddClick }: { onAddClick: () => void })
+import { categories } from "../Data/CategoryData";
+import type { TransactionHeaderProps } from "../types/TransactionHeaderProps";
+
+export default function TransactionHeader({ onAddClick, searchExpense, selectedCategory, selectedDate, onSearchExpense, onCategoryChange, onDateChange}: TransactionHeaderProps)
 {
   return(
   <div className="p-5 border-b border-gray-200 flex flex-col xl:flex-row gap-4 justify-between items-center bg-white">
@@ -18,14 +21,21 @@ export default function TransactionHeader({ onAddClick }: { onAddClick: () => vo
           className="block w-full xl:w-64 pl-10 pr-3 py-2 border border-gray-300  rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm transition duration-150 ease-in-out text-slate-700" 
           placeholder="Search by title..." 
           type="text"
+          value = {searchExpense}
+          onChange={(e) => onSearchExpense(e.target.value)}
         />  
       </div>
 
       <div className="relative flex items-center grow sm:grow-0">
-        <select className="appearance-none w-full bg-white text-slate-700  text-sm border border-gray-300 rounded-lg pl-3 pr-10 py-2 transition duration-300 ease focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
+        <select className="appearance-none w-full bg-white text-slate-700  text-sm border border-gray-300 rounded-lg pl-3 pr-10 py-2 transition duration-300 ease focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+        value={selectedCategory}
+        onChange={(e) => onCategoryChange(e.target.value)}>
           <option value="">All Categories</option>
-          <option value="housing">Housing</option>
-          <option value="food">Food</option>
+          {categories.map((category) => (
+          <option key={category.id} value={category.value}>
+          {category.label}
+      </option>
+    ))}
         </select>
         <span className="material-symbols-outlined absolute right-2 pointer-events-none text-gray-400 text-[20px]!">
           keyboard_arrow_down
@@ -35,7 +45,9 @@ export default function TransactionHeader({ onAddClick }: { onAddClick: () => vo
       <div className='relative flex items-center grow sm:grow-0'>
         <input 
           className="block w-full px-3 py-2 border border-gray-300  rounded-lg text-sm bg-white text-slate-700  focus:outline-none focus:ring-2 focus:ring-blue-500" 
-          type="date"
+          type="date" 
+          value={selectedDate}  
+          onChange={(e) => onDateChange(e.target.value)}
         />
       </div>
 

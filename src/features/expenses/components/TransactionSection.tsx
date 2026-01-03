@@ -4,8 +4,9 @@ import TransactionHeader from './TransactionHeader';
 import type { FormInputProps } from '../types/FormInputProps';
 import Modal from '../../../components/Modal';
 import type { Expense, ExpenseForm } from '../types/Expense';
-import CATEGORY_STYLES from '../IconConfig';
+import CATEGORY_STYLES from '../Data/IconConfig';
 import { useExpenseForm } from '../hooks/useExpenseForm';
+import { categories } from '../Data/CategoryData';
 
 const FormInput = ({ label, name, type = "text", value, onChange, placeholder, options }: FormInputProps) => (
   <div className="mb-4 text-left">
@@ -52,6 +53,16 @@ export default function TransactionSection()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { formData, handleChange, reset } =useExpenseForm(INITIAL_STATE);  
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [searchExpense, setSearchExpense] = useState<string>("");
+  const [filterExpByCategory, setFilterExpByCategory] = useState<string>("");
+  const [filterExpByDate, setFilterExpByDate] = useState<string>("");
+
+  const filteredExpenses = expenses.filter((expense) => {
+  const matchExpCategory = filterExpByCategory === "" || expense.category.toLowerCase()=== filterExpByCategory;
+  const matchExpDate = filterExpByDate === "" || expense.date === filterExpByDate;
+  const matchExpense = searchExpense === "" || expense.title.toLocaleLowerCase().includes(searchExpense.toLowerCase());
+    return matchExpCategory && matchExpDate && matchExpense;
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
@@ -66,7 +77,14 @@ export default function TransactionSection()
     return (
     <div className="relative">
       <Card className="p-0! overflow-hidden">
-        <TransactionHeader onAddClick={() => setIsModalOpen(true)}/>
+        <TransactionHeader onAddClick={() => setIsModalOpen(true)}
+        searchExpense={searchExpense}
+        onSearchExpense={setSearchExpense}
+        selectedCategory={filterExpByCategory}
+        onCategoryChange={setFilterExpByCategory}
+        selectedDate={filterExpByDate}           
+        onDateChange={setFilterExpByDate}   
+        />
         <div className="overflow-x-auto">
           <table className="w-full text-left">
               <thead className="bg-gray-50 ">
@@ -81,7 +99,7 @@ export default function TransactionSection()
                   </tr>
               </thead>
               <tbody className="bg-white  divide-y divide-gray-200">
-                  { expenses.map(expense =>{
+                  { filteredExpenses.map(expense =>{
                   const style = CATEGORY_STYLES[expense.category] || CATEGORY_STYLES["default"];
                   return(
                   <tr key={expense.id} className="hover:bg-gray-50 transition-colors">
@@ -151,13 +169,13 @@ export default function TransactionSection()
                 onChange={handleChange} 
                 placeholder="0.00" 
               />
-              <FormInput 
+              <FormInput
                 label="Category" 
                 name="category" 
                 type="select" 
                 value={formData.category} 
                 onChange={handleChange} 
-                options={["Food & Dining", "Housing", "Transport", "Shopping","others"]} 
+                options={categories.map(category=>category.label)} 
               />
             </div>
 

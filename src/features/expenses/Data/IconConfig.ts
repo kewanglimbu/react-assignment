@@ -1,5 +1,5 @@
 const CATEGORY_STYLES: Record<string, { icon: string; colors: string }> = {
-  "Food & Dining": {
+  "Food": {
     icon: "restaurant",
     colors: "bg-orange-100 text-orange-600"
   },
@@ -15,7 +15,7 @@ const CATEGORY_STYLES: Record<string, { icon: string; colors: string }> = {
     icon: "shopping_bag",
     colors: "bg-pink-100 text-pink-600  "
   },
-  "others": {
+  "Others": {
     icon: "payments",
     colors: "bg-red-100 text-red-600 ",
   }
